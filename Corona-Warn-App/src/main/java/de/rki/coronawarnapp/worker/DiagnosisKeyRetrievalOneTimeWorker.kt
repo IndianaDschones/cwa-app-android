@@ -1,11 +1,11 @@
 package de.rki.coronawarnapp.worker
 
 import android.content.Context
-import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
+import timber.log.Timber
 
 /**
  * One time diagnosis key retrieval work
@@ -16,10 +16,6 @@ import de.rki.coronawarnapp.transaction.RetrieveDiagnosisKeysTransaction
 class DiagnosisKeyRetrievalOneTimeWorker(val context: Context, workerParams: WorkerParameters) :
     CoroutineWorker(context, workerParams) {
 
-    companion object {
-        private val TAG: String? = DiagnosisKeyRetrievalOneTimeWorker::class.simpleName
-    }
-
     /**
      * Work execution
      *
@@ -28,10 +24,13 @@ class DiagnosisKeyRetrievalOneTimeWorker(val context: Context, workerParams: Wor
      * @see RetrieveDiagnosisKeysTransaction
      */
     override suspend fun doWork(): Result {
-        if (BuildConfig.DEBUG) Log.d(TAG, "Background job started. Run attempt: $runAttemptCount")
+        if (BuildConfig.DEBUG) Timber.d("Background job started. Run attempt: %i", runAttemptCount)
 
         if (runAttemptCount > BackgroundConstants.WORKER_RETRY_COUNT_THRESHOLD) {
-            if (BuildConfig.DEBUG) Log.d(TAG, "Background job failed after $runAttemptCount attempts. Rescheduling")
+            if (BuildConfig.DEBUG) Timber.d(
+                "Background job failed after %i attempts. Rescheduling",
+                runAttemptCount
+            )
             return Result.failure()
         }
         var result = Result.success()
