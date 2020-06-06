@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.IntentFilter
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.util.Log
 import android.view.WindowManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
@@ -18,7 +17,10 @@ import de.rki.coronawarnapp.exception.ErrorReportReceiver
 import de.rki.coronawarnapp.exception.ReportingConstants.ERROR_REPORT_LOCAL_BROADCAST_CHANNEL
 import de.rki.coronawarnapp.notification.NotificationHelper
 import org.conscrypt.Conscrypt
+import timber.log.Timber
+import timber.log.Timber.DebugTree
 import java.security.Security
+
 
 class CoronaWarnApplication : Application(), LifecycleObserver,
     Application.ActivityLifecycleCallbacks {
@@ -48,6 +50,10 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
         Security.insertProviderAt(Conscrypt.newProvider(), 1)
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
         registerActivityLifecycleCallbacks(this)
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(DebugTree())
+        }
     }
 
     /**
@@ -56,7 +62,7 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onAppBackgrounded() {
         isAppInForeground = false
-        Log.v(TAG, "App backgrounded")
+        Timber.v("App backgrounded")
     }
 
     /**
@@ -65,7 +71,7 @@ class CoronaWarnApplication : Application(), LifecycleObserver,
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onAppForegrounded() {
         isAppInForeground = true
-        Log.v(TAG, "App foregrounded")
+        Timber.v("App foregrounded")
     }
 
     override fun onActivityPaused(activity: Activity) {

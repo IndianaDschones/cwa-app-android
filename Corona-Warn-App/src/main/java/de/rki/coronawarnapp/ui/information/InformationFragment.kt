@@ -14,9 +14,6 @@ import de.rki.coronawarnapp.util.OpenUrlHelper
  * Basic Fragment which links to static and web content.
  */
 class InformationFragment : BaseFragment() {
-    companion object {
-        private val TAG: String? = InformationFragment::class.simpleName
-    }
 
     private var _binding: FragmentInformationBinding? = null
     private val binding: FragmentInformationBinding get() = _binding!!

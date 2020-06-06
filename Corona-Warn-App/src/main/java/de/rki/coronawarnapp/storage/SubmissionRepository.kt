@@ -8,7 +8,6 @@ import de.rki.coronawarnapp.util.formatter.TestResult
 import java.util.Date
 
 object SubmissionRepository {
-    private val TAG: String? = SubmissionRepository::class.simpleName
 
     val testResultReceivedDate = MutableLiveData(Date())
     val deviceUIState = MutableLiveData(DeviceUIState.UNPAIRED)

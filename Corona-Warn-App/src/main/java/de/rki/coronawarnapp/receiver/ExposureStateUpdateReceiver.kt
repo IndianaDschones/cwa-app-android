@@ -27,9 +27,6 @@ import de.rki.coronawarnapp.nearby.ExposureStateUpdateWorker
  *
  */
 class ExposureStateUpdateReceiver : BroadcastReceiver() {
-    companion object {
-        private val TAG: String? = ExposureStateUpdateReceiver::class.simpleName
-    }
 
     override fun onReceive(context: Context, intent: Intent) {
         val action = intent.action

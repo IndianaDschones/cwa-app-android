@@ -1,7 +1,6 @@
 package de.rki.coronawarnapp.ui.main
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +17,7 @@ import de.rki.coronawarnapp.ui.viewmodel.SettingsViewModel
 import de.rki.coronawarnapp.ui.viewmodel.SubmissionViewModel
 import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
 import de.rki.coronawarnapp.util.OpenUrlHelper
+import timber.log.Timber
 
 /**
  * After the user has finished the onboarding this fragment will be the heart of the application.
@@ -30,10 +30,6 @@ import de.rki.coronawarnapp.util.OpenUrlHelper
  * @see PopupMenu
  */
 class MainFragment : BaseFragment() {
-
-    companion object {
-        private val TAG: String? = MainFragment::class.simpleName
-    }
 
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
@@ -151,9 +147,8 @@ class MainFragment : BaseFragment() {
                 }
                 // todo remove only for testing
                 R.id.menu_notification_test -> {
-                    Log.i(TAG, "calling notification")
-                    Log.i(
-                        TAG,
+                    Timber.i("calling notification")
+                    Timber.i(
                         NotificationManagerCompat.from(requireContext()).areNotificationsEnabled()
                             .toString()
                     )

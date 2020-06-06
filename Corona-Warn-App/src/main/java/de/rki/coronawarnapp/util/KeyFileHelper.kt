@@ -4,7 +4,6 @@ import KeyExportFormat
 import KeyExportFormat.TEKSignatureList
 import KeyExportFormat.TEKSignatureList.newBuilder
 import KeyExportFormat.TemporaryExposureKeyExport
-import android.util.Log
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.server.protocols.AppleLegacyKeyExchange
 import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.convertToGoogleKey
@@ -13,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileOutputStream
@@ -39,13 +39,13 @@ object KeyFileHelper {
     ): List<File> = withContext(Dispatchers.IO) {
         fileList.map { file ->
             async(Dispatchers.IO) {
-                if (BuildConfig.DEBUG) Log.d(
-                    TAG,
-                    "created export " +
-                            "for batch ${file.header.batchNum}(of ${file.header.batchSize}) " +
-                            "with ${file.keysCount} keys, " +
-                            "BEG:${Date(file.header.startTimestamp).logUTCFormat()}, " +
-                            "END:${Date(file.header.endTimestamp).logUTCFormat()}"
+                if (BuildConfig.DEBUG) Timber.d(
+                    "created export for batch %i (of %i) with %i keys, BEG:%s, END:%s",
+                    file.header.batchNum,
+                    file.header.batchSize,
+                    file.keysCount,
+                    Date(file.header.startTimestamp).logUTCFormat(),
+                    Date(file.header.endTimestamp).logUTCFormat()
                 )
                 Pair(
                     TemporaryExposureKeyExport
@@ -107,8 +107,10 @@ object KeyFileHelper {
                     Pair(EXPORT_SIGNATURE_FILE_NAME, exportSignatureFile.await())
                 )
             ).also {
-                if (BuildConfig.DEBUG) Log.d(TAG, "output file name:" + it.absolutePath)
-                if (BuildConfig.DEBUG) Log.d(TAG, "output file size:${it.length() / BYTES_IN_KILOBYTES} KB")
+                if (BuildConfig.DEBUG) Timber.d("output file name: %s", it.absolutePath)
+                if (BuildConfig.DEBUG) Timber.d(
+                    "output file size: %l KB", it.length() / BYTES_IN_KILOBYTES
+                )
 
                 exportFile.await().delete()
                 exportSignatureFile.await().delete()

@@ -1,12 +1,11 @@
 package de.rki.coronawarnapp.risk
 
-import android.util.Log
 import com.google.android.gms.nearby.exposurenotification.ExposureSummary
 import de.rki.coronawarnapp.server.protocols.ApplicationConfigurationOuterClass
+import timber.log.Timber
 import kotlin.math.round
 
 object RiskLevelCalculation {
-    private var TAG = RiskLevelCalculation::class.simpleName
 
     private const val DECIMAL_MULTIPLIER = 100
 
@@ -31,12 +30,12 @@ object RiskLevelCalculation {
         val defaultBucketOffset = attenuationParameters.defaultBucketOffset.toDouble()
         val normalizationDivisor = attenuationParameters.riskScoreNormalizationDivisor.toDouble()
 
-        Log.v(
-            TAG,
-            "Weighted Attenuation: ($weightedAttenuationLow +" +
-                    " $weightedAttenuationMid +" +
-                    " $weightedAttenuationHigh +" +
-                    " $defaultBucketOffset)"
+        Timber.v(
+            "Weighted Attenuation: (%d + %d + %d + %d)",
+            weightedAttenuationLow,
+            weightedAttenuationMid,
+            weightedAttenuationHigh,
+            defaultBucketOffset
         )
 
         val weightedAttenuationDuration =
@@ -45,9 +44,11 @@ object RiskLevelCalculation {
                 .plus(weightedAttenuationHigh)
                 .plus(defaultBucketOffset)
 
-        Log.v(
-            TAG,
-            "Formula used: ($maximumRiskScore / $normalizationDivisor) * $weightedAttenuationDuration"
+        Timber.v(
+            "Formula used: (%d / %d) * %d",
+            maximumRiskScore,
+            normalizationDivisor,
+            weightedAttenuationDuration
         )
 
         val riskScore = (maximumRiskScore / normalizationDivisor) * weightedAttenuationDuration

@@ -19,10 +19,6 @@ import de.rki.coronawarnapp.ui.viewmodel.TracingViewModel
  */
 class SettingsFragment : BaseFragment() {
 
-    companion object {
-        private val TAG: String? = SettingsFragment::class.simpleName
-    }
-
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private val settingsViewModel: SettingsViewModel by activityViewModels()
     private var _binding: FragmentSettingsBinding? = null

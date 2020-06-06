@@ -36,8 +36,6 @@ import de.rki.coronawarnapp.util.ProtoFormatConverterExtensions.transformKeyHist
  */
 object SubmitDiagnosisKeysTransaction : Transaction() {
 
-    override val TAG: String? = SubmitDiagnosisKeysTransaction::class.simpleName
-
     /** possible transaction states */
     private enum class SubmitDiagnosisKeysTransactionState :
         TransactionState {

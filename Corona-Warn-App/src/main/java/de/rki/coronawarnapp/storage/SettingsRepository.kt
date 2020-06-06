@@ -15,8 +15,6 @@ import de.rki.coronawarnapp.util.ConnectivityHelper
  */
 object SettingsRepository {
 
-    private val TAG: String? = SettingsRepository::class.simpleName
-
     // public mutable live data
     val isNotificationsEnabled = MutableLiveData(true)
     val isNotificationsRiskEnabled = MutableLiveData(true)

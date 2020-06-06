@@ -20,9 +20,6 @@ import de.rki.coronawarnapp.worker.BackgroundWorkScheduler
  * @see BackgroundWorkScheduler
  */
 class MainActivity : AppCompatActivity() {
-    companion object {
-        private val TAG: String? = MainActivity::class.simpleName
-    }
 
     private val FragmentManager.currentNavigationFragment: Fragment?
         get() = primaryNavigationFragment?.childFragmentManager?.fragments?.first()

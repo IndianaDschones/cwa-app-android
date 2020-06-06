@@ -21,10 +21,6 @@ import de.rki.coronawarnapp.util.DialogHelper
 class OnboardingTracingFragment : BaseFragment(),
     InternalExposureNotificationPermissionHelper.Callback {
 
-    companion object {
-        private val TAG: String? = OnboardingTracingFragment::class.simpleName
-    }
-
     private lateinit var internalExposureNotificationPermissionHelper: InternalExposureNotificationPermissionHelper
     private var _binding: FragmentOnboardingTracingBinding? = null
     private val binding: FragmentOnboardingTracingBinding get() = _binding!!

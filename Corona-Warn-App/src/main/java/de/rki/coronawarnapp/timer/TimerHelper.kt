@@ -1,6 +1,5 @@
 package de.rki.coronawarnapp.timer
 
-import android.util.Log
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.CoronaWarnApplication
 import de.rki.coronawarnapp.R
@@ -8,6 +7,7 @@ import de.rki.coronawarnapp.risk.TimeVariables
 import de.rki.coronawarnapp.storage.LocalData
 import de.rki.coronawarnapp.storage.SettingsRepository
 import de.rki.coronawarnapp.util.TimeAndDateExtensions.millisecondsToHMS
+import timber.log.Timber
 import java.util.Date
 import java.util.Timer
 import java.util.concurrent.atomic.AtomicBoolean
@@ -17,8 +17,6 @@ import kotlin.concurrent.fixedRateTimer
  * Singleton class for timer handling
  */
 object TimerHelper {
-
-    private val TAG: String? = TimerHelper::class.simpleName
 
     /**
      * Atomic boolean for timer existence check
@@ -141,20 +139,20 @@ object TimerHelper {
      * Log timer start
      */
     private fun Timer.logTimerStart() {
-        if (BuildConfig.DEBUG) Log.d(TAG, "Timer started: $this")
+        Timber.d("Timer started: %s", this)
     }
 
     /**
      * Log timer stop
      */
     private fun logTimerStop(timerName: String) {
-        if (BuildConfig.DEBUG) Log.d(TAG, "Timer stopped: $timerName")
+        Timber.d("Timer stopped: %s", timerName)
     }
 
     /**
      * Log timer exception
      */
     private fun logTimerException(exception: java.lang.Exception) {
-        Log.e(TAG, "Timer exception: $exception")
+        Timber.e(exception, "Timer exception")
     }
 }

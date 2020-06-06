@@ -12,9 +12,6 @@ import de.rki.coronawarnapp.ui.main.MainActivity
  * Basic Fragment which only displays static content.
  */
 class InformationTermsFragment : BaseFragment() {
-    companion object {
-        private val TAG: String? = InformationTermsFragment::class.simpleName
-    }
 
     private var _binding: FragmentInformationTermsBinding? = null
     private val binding: FragmentInformationTermsBinding get() = _binding!!

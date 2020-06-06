@@ -1,13 +1,13 @@
 package de.rki.coronawarnapp.ui.submission
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import de.rki.coronawarnapp.databinding.FragmentSubmissionDialogBinding
+import timber.log.Timber
 
 /**
  * A simple [SubmissionSuccessDialogFragment] subclass.
@@ -40,7 +40,7 @@ class SubmissionSuccessDialogFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.submissionVerificationSuccessButton.setOnClickListener {
-            Log.i(TAG, "button OK clicked")
+            Timber.i("button OK clicked")
             dismiss()
             findNavController().navigate(
                 SubmissionSuccessDialogFragmentDirections.actionSubmissionSuccessDialogFragmentToMainFragment()

@@ -21,9 +21,6 @@ import de.rki.coronawarnapp.util.SettingsNavigationHelper
  * @see SettingsViewModel
  */
 class SettingsNotificationFragment : Fragment() {
-    companion object {
-        private val TAG: String? = SettingsNotificationFragment::class.simpleName
-    }
 
     private val settingsViewModel: SettingsViewModel by activityViewModels()
     private var _binding: FragmentSettingsNotificationsBinding? = null

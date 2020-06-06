@@ -16,9 +16,6 @@ import de.rki.coronawarnapp.ui.main.MainActivity
  * @see LocalData
  */
 class OnboardingActivity : AppCompatActivity(), LifecycleObserver {
-    companion object {
-        private val TAG: String? = OnboardingActivity::class.simpleName
-    }
 
     private val FragmentManager.currentNavigationFragment: Fragment?
         get() = primaryNavigationFragment?.childFragmentManager?.fragments?.first()

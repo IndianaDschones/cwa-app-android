@@ -16,9 +16,6 @@ import de.rki.coronawarnapp.ui.BaseFragment
  * @see AlertDialog
  */
 class OnboardingNotificationsFragment : BaseFragment() {
-    companion object {
-        private val TAG: String? = OnboardingNotificationsFragment::class.simpleName
-    }
 
     private var _binding: FragmentOnboardingNotificationsBinding? = null
     private val binding: FragmentOnboardingNotificationsBinding get() = _binding!!

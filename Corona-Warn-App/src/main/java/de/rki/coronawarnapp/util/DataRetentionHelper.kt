@@ -20,10 +20,10 @@
 package de.rki.coronawarnapp.util
 
 import android.content.Context
-import android.util.Log
 import de.rki.coronawarnapp.storage.AppDatabase
 import de.rki.coronawarnapp.storage.FileStorageHelper
 import de.rki.coronawarnapp.storage.LocalData
+import timber.log.Timber
 
 /**
  * Helper for supplying functionality regarding Data Retention
@@ -36,7 +36,7 @@ object DataRetentionHelper {
      *
      */
     fun clearAllLocalData(context: Context) {
-        Log.w(TAG, "CWA LOCAL DATA DELETION INITIATED.")
+        Timber.w("CWA LOCAL DATA DELETION INITIATED.")
         // Database Reset
         AppDatabase.getInstance(context).clearAllTables()
         // Shared Preferences Reset
@@ -45,6 +45,6 @@ object DataRetentionHelper {
         AppDatabase.resetInstance(context)
         // Export File Reset
         FileStorageHelper.getAllFilesInKeyExportDirectory().forEach { it.delete() }
-        Log.w(TAG, "CWA LOCAL DATA DELETION COMPLETED.")
+        Timber.w("CWA LOCAL DATA DELETION COMPLETED.")
     }
 }

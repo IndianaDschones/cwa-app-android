@@ -16,10 +16,6 @@ import de.rki.coronawarnapp.ui.BaseFragment
 
 class MainOverviewFragment : BaseFragment() {
 
-    companion object {
-        private val TAG: String? = MainOverviewFragment::class.simpleName
-    }
-
     private var _binding: FragmentMainOverviewBinding? = null
     private val binding: FragmentMainOverviewBinding get() = _binding!!
 

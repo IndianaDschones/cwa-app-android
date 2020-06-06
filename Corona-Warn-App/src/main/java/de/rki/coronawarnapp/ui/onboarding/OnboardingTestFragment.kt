@@ -11,9 +11,6 @@ import de.rki.coronawarnapp.ui.BaseFragment
  * This fragment informs the user about test results.
  */
 class OnboardingTestFragment : BaseFragment() {
-    companion object {
-        private val TAG: String? = OnboardingTestFragment::class.simpleName
-    }
 
     private var _binding: FragmentOnboardingTestBinding? = null
     private val binding: FragmentOnboardingTestBinding get() = _binding!!

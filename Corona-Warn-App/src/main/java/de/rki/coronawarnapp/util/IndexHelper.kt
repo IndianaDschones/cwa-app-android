@@ -19,9 +19,9 @@
 
 package de.rki.coronawarnapp.util
 
-import android.util.Log
 import com.google.common.base.Splitter
 import de.rki.coronawarnapp.BuildConfig
+import timber.log.Timber
 import java.util.regex.Pattern
 
 @Suppress("ComplexCondition", "TooGenericExceptionThrown")
@@ -30,7 +30,8 @@ object IndexHelper {
     private val WHITESPACE_SPLITTER: Splitter =
         Splitter.onPattern("\\s+").trimResults().omitEmptyStrings()
 
-    private val INDEX_ELEMENT_PATTERN: Pattern = Pattern.compile("Cwa-([A-Z]{2})/([0-9]{10})-([0-9]+).zip")
+    private val INDEX_ELEMENT_PATTERN: Pattern =
+        Pattern.compile("Cwa-([A-Z]{2})/([0-9]{10})-([0-9]+).zip")
 
     private const val GROUP_COUNT = 3
     private const val COUNTRY_CODE_GROUP = 1
@@ -48,7 +49,7 @@ object IndexHelper {
      * @return Map of Batch Number to File Names (from the Index)
      */
     fun String.convertToIndex(): Map<Long, String> = WHITESPACE_SPLITTER.splitToList(this).also {
-        if (BuildConfig.DEBUG) Log.d(TAG, "Index(${it.size} Elements):$it")
+        Timber.d("Index(%i Elements): %s", it.size, it.toString())
     }.associateBy { indexElement ->
         val matcher = INDEX_ELEMENT_PATTERN.matcher(indexElement)
         if (
@@ -68,10 +69,12 @@ object IndexHelper {
             matcher.group(BATCH_NUMBER_GROUP)
                 ?: throw NullPointerException("Batch Regex Group 3 (Batch Number) must not be null")
 
-        if (BuildConfig.DEBUG) Log.d(
-            TAG, "index element " +
-                    "$indexElement=(Timestamp:$timestampString, BatchNum:$batchNumberString, " +
-                    "ISOCountryCode:$isoCountryCode"
+        if (BuildConfig.DEBUG) Timber.d(
+            "index element %s=(Timestamp:%s, BatchNum:%s, ISOCountryCode:%s",
+            indexElement,
+            timestampString,
+            batchNumberString,
+            isoCountryCode
         )
 
         timestampString.toLong()

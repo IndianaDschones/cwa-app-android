@@ -20,7 +20,6 @@
 package de.rki.coronawarnapp.http
 
 import KeyExportFormat
-import android.util.Log
 import com.google.protobuf.InvalidProtocolBufferException
 import de.rki.coronawarnapp.exception.ApplicationConfigurationCorruptException
 import de.rki.coronawarnapp.exception.ApplicationConfigurationInvalidException
@@ -36,12 +35,12 @@ import de.rki.coronawarnapp.util.ZipHelper.unzip
 import de.rki.coronawarnapp.util.security.SecurityHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.io.File
 import java.util.Date
 import java.util.UUID
 
 object WebRequestBuilder {
-    private val TAG: String? = WebRequestBuilder::class.simpleName
 
     private const val EXPORT_BINARY_FILE_NAME = "export.bin"
     private const val EXPORT_SIGNATURE_FILE_NAME = "export.sig"
@@ -78,9 +77,9 @@ object WebRequestBuilder {
         val fileName = "${UUID.nameUUIDFromBytes(url.toByteArray())}.zip"
         val file = File(FileStorageHelper.keyExportDirectory, fileName)
         file.outputStream().use {
-            Log.v(requestID.toString(), "Added $url to queue.")
+            Timber.tag(requestID.toString()).v("Added %s to queue.", url)
             distributionService.getKeyFiles(url).byteStream().copyTo(it, DEFAULT_BUFFER_SIZE)
-            Log.v(requestID.toString(), "key file request successful.")
+            Timber.tag(requestID.toString()).v("key file request successful.")
         }
         return@withContext file
     }
@@ -151,7 +150,7 @@ object WebRequestBuilder {
         faked: Boolean,
         keyList: List<KeyExportFormat.TemporaryExposureKey>
     ) = withContext(Dispatchers.IO) {
-        Log.d(TAG, "Writing ${keyList.size} Keys to the Submission Payload.")
+        Timber.d("Writing %i Keys to the Submission Payload.", keyList.size)
         val submissionPayload = KeyExportFormat.SubmissionPayload.newBuilder()
             .addAllKeys(keyList)
             .build()

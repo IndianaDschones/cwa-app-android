@@ -14,9 +14,6 @@ import de.rki.coronawarnapp.util.CallHelper
  * Basic Fragment which only displays static content.
  */
 class InformationContactFragment : BaseFragment() {
-    companion object {
-        private val TAG: String? = InformationContactFragment::class.simpleName
-    }
 
     private var _binding: FragmentInformationContactBinding? = null
     private val binding: FragmentInformationContactBinding get() = _binding!!

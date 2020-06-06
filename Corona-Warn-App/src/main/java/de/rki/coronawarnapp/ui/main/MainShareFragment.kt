@@ -18,10 +18,6 @@ import de.rki.coronawarnapp.util.ShareHelper
  */
 class MainShareFragment : BaseFragment() {
 
-    companion object {
-        private val TAG: String? = MainShareFragment::class.simpleName
-    }
-
     private val tracingViewModel: TracingViewModel by activityViewModels()
     private var _binding: FragmentMainShareBinding? = null
     private val binding: FragmentMainShareBinding get() = _binding!!

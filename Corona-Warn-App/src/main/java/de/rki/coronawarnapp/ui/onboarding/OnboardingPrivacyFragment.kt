@@ -11,9 +11,6 @@ import de.rki.coronawarnapp.ui.BaseFragment
  * This fragment informs the user regarding privacy.
  */
 class OnboardingPrivacyFragment : BaseFragment() {
-    companion object {
-        private val TAG: String? = OnboardingPrivacyFragment::class.simpleName
-    }
 
     private var _binding: FragmentOnboardingPrivacyBinding? = null
     private val binding: FragmentOnboardingPrivacyBinding get() = _binding!!

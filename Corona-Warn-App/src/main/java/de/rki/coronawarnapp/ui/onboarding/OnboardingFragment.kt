@@ -11,9 +11,6 @@ import de.rki.coronawarnapp.ui.BaseFragment
  * Onboarding starting point.
  */
 class OnboardingFragment : BaseFragment() {
-    companion object {
-        private val TAG: String? = OnboardingFragment::class.simpleName
-    }
 
     private var _binding: FragmentOnboardingBinding? = null
     private val binding: FragmentOnboardingBinding get() = _binding!!

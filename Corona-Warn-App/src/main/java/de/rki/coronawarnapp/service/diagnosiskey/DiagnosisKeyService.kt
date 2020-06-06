@@ -20,13 +20,13 @@
 package de.rki.coronawarnapp.service.diagnosiskey
 
 import KeyExportFormat
-import android.util.Log
 import de.rki.coronawarnapp.exception.DiagnosisKeyRetrievalException
 import de.rki.coronawarnapp.exception.DiagnosisKeySubmissionException
 import de.rki.coronawarnapp.exception.SubmissionTanInvalidException
 import de.rki.coronawarnapp.http.WebRequestBuilder
 import de.rki.coronawarnapp.service.diagnosiskey.DiagnosisKeyConstants.SERVER_ERROR_CODE_403
 import retrofit2.HttpException
+import timber.log.Timber
 
 /**
  * The Diagnosis Key Service is used to interact with the Server to submit and retrieve keys through
@@ -36,8 +36,6 @@ import retrofit2.HttpException
  * @throws DiagnosisKeySubmissionException An Exception thrown when an error occurs during Key Reporting to the Server
  */
 object DiagnosisKeyService {
-
-    private val TAG: String? = DiagnosisKeyService::class.simpleName
 
     /**
      * Asynchronously submits keys to the Server with the WebRequestBuilder by retrieving
@@ -51,7 +49,7 @@ object DiagnosisKeyService {
      */
     suspend fun asyncSubmitKeys(authCode: String, keysToReport: List<KeyExportFormat.TemporaryExposureKey>) {
         try {
-            Log.d(TAG, "Diagnosis Keys will be submitted.")
+            Timber.d("Diagnosis Keys will be submitted.")
             WebRequestBuilder.asyncSubmitKeysToServer(
                 authCode,
                 false,

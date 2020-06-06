@@ -1,7 +1,7 @@
 package de.rki.coronawarnapp.util
 
-import android.util.Log
 import de.rki.coronawarnapp.CoronaWarnApplication
+import timber.log.Timber
 import java.util.Properties
 
 class PropertyLoader {
@@ -22,7 +22,7 @@ class PropertyLoader {
         this.getProperty(key)
             .split(PIN_FILE_DELIMITER)
             .filter { it.isNotEmpty() }
-            .also { Log.v(key, it.toString()) }
+            .also { Timber.tag(key).v("%s", it.toString()) }
             .toTypedArray()
     }
 }

@@ -19,7 +19,6 @@
 
 package de.rki.coronawarnapp.transaction
 
-import android.util.Log
 import de.rki.coronawarnapp.BuildConfig
 import de.rki.coronawarnapp.exception.RollbackException
 import de.rki.coronawarnapp.exception.TransactionException
@@ -31,6 +30,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeout
+import timber.log.Timber
 import java.util.UUID
 import java.util.concurrent.atomic.AtomicReference
 import kotlin.coroutines.CoroutineContext
@@ -56,9 +56,6 @@ abstract class Transaction {
         private val TRANSACTION_TIMEOUT_MS =
             TimeVariables.getTransactionTimeout()
     }
-
-    @Suppress("VariableNaming") // Done as the Convention is TAG for every class
-    abstract val TAG: String?
 
     /**
      * This is the State Stack that is used inside the Transaction. It is an atomic reference held only by the
@@ -90,7 +87,9 @@ abstract class Transaction {
     private fun setState(state: TransactionState) =
         currentTransactionState.set(state)
             .also {
-                Log.d(TAG, "$transactionId - STATE CHANGE: ${currentTransactionState.get()}")
+                Timber.d("%s - STATE CHANGE: %s",
+                transactionId.toString(),
+                currentTransactionState.toString())
             }
 
     /**
@@ -211,10 +210,10 @@ abstract class Transaction {
      */
     private suspend fun <T> lockAndExecute(unique: Boolean, block: suspend CoroutineScope.() -> T) {
         if (unique && internalMutualExclusionLock.isLocked) {
-            Log.w(
-                TAG,
-                "TRANSACTION WITH ID $transactionId ALREADY RUNNING ($currentTransactionState) AS UNIQUE, " +
-                        "SKIPPING EXECUTION."
+            Timber.w(
+                "TRANSACTION WITH ID %s ALREADY RUNNING (%s) AS UNIQUE, SKIPPING EXECUTION.",
+                transactionId.toString(),
+                currentTransactionState.toString()
             )
             return
         }
@@ -226,11 +225,12 @@ abstract class Transaction {
                         block.invoke(this)
                     }
                 }.also {
-                    Log.i(
-                        TAG,
-                        "TRANSACTION $transactionId COMPLETED (${System.currentTimeMillis()}) " +
-                                "in $it ms, " +
-                                "STATES EXECUTED: ${getExecutedStates()}"
+                    Timber.i(
+                        "TRANSACTION %s COMPLETED (%l) in %l ms, STATES EXECUTED: %s",
+                        transactionId.toString(),
+                        System.currentTimeMillis(),
+                        it,
+                        getExecutedStates().toString()
                     )
                 }
                 resetExecutedStateStack()
@@ -274,7 +274,7 @@ abstract class Transaction {
      * @throws RollbackException throws a rollback exception when handleRollbackError() is called
      */
     protected open suspend fun rollback() {
-        if (BuildConfig.DEBUG) Log.d(TAG, "Initiate Rollback")
+        if (BuildConfig.DEBUG) Timber.d("Initiate Rollback")
     }
 
     /**
