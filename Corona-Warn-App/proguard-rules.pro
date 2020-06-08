@@ -58,3 +58,14 @@
 # and replaces all potential values with null. Explicitly keeping the interfaces prevents this.
 -if interface * { @retrofit2.http.* <methods>; }
 -keep,allowobfuscation interface <1>
+
+# Remove the specified (Timber) Log levels
+-assumenosideeffects class timber.log.Timber
+{
+  public static void v(...);
+  public static void i(...);
+  public static void w(...);
+  public static void d(...);
+  public static void e(...);
+  public static void wtf(...);
+}
